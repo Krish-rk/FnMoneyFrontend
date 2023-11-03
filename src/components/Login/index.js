@@ -51,7 +51,7 @@ class Login extends Component {
     const response = await fetch(url, options)
     if (response.ok === true) {
       const data = await response.json()
-      console.log(data)
+      this.loginSuccess(data)
     } else {
       const data = await response.json()
 
@@ -80,7 +80,7 @@ class Login extends Component {
               onChange={this.onChangeUsername}
               value={username}
             />
-            <label htmlFor="password">PASWWORD</label>
+            <label htmlFor="password">PASSWORD</label>
             <input
               type="password"
               id="password"

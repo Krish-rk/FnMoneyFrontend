@@ -1,6 +1,7 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import SimilarJobs from '../SimilarJobs'
 
 class JobDetails extends Component {
   state = {
@@ -48,10 +49,10 @@ class JobDetails extends Component {
 
     const updatedSimilarJobs = similarJobs.map(each => ({
       companyUrl: each.company_logo_url,
+      webUrl: each.company_website_url,
       employmentType: each.employment_type,
       id: each.id,
       desc: each.job_description,
-      packages: each.package_per_annum,
       rating: each.rating,
       title: each.title,
       location: each.location,
@@ -82,7 +83,7 @@ class JobDetails extends Component {
     return !isLoading ? (
       <div>
         <div>
-          <img src={companyUrl} />
+          <img src={companyUrl} alt="website logo" />
           <div>
             <p>{rating}</p>
           </div>
@@ -90,6 +91,7 @@ class JobDetails extends Component {
             <p>{location}</p>
             <p>{employementType}</p>
             <p>{packages}</p>
+            <a href={webUrl}>Visit</a>
           </div>
         </div>
         <h1>Description</h1>
@@ -105,11 +107,12 @@ class JobDetails extends Component {
             ))}
           </ul>
         </div>
-        {/* <ul>
-              {
-                  similarJobs.map(each=><SimilarJobs item={each} key={each.id}/>)
-              }
-          </ul> */}
+        <h1>Similar Jobs</h1>
+        <ul>
+          {similarJobs.map(each => (
+            <SimilarJobs item={each} key={each.id} />
+          ))}
+        </ul>
       </div>
     ) : (
       <div className="loader-container" data-testid="loader">
