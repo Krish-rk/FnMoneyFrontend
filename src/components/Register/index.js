@@ -1,9 +1,7 @@
 import {useState} from 'react'
-import {Redirect} from 'react-router-dom'
-import Cookies from 'js-cookie'
 import './index.css'
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMsg, setErrorMsg] = useState('')
@@ -12,7 +10,8 @@ const Login = () => {
   const onSubmit = async event => {
     event.preventDefault()
     const userDetails = {username, password}
-    const apiUrl = 'https://react-form-intern-production.up.railway.app/login'
+    const apiUrl =
+      'https://react-form-intern-production.up.railway.app/register'
 
     const options = {
       method: 'POST',
@@ -26,8 +25,7 @@ const Login = () => {
       const response = await fetch(apiUrl, options)
       const data = await response.json()
       if (response.ok) {
-        Cookies.set('jwt_token', data.jwt_token, {expires: 30})
-        window.location.replace('/')
+        window.location.replace('/login')
       } else {
         setErrorMsg(data.error_msg)
         setIsError(true)
@@ -38,16 +36,11 @@ const Login = () => {
     }
   }
 
-  const jwtToken = Cookies.get('jwt_token')
-  if (jwtToken) {
-    return <Redirect to="/" />
-  }
-
   return (
-    <div className="login-container">
-      <div className="login-form-container">
-        <h1 className="login-text">Login</h1>
-        <form className="login-form" onSubmit={onSubmit}>
+    <div className="register-container">
+      <div className="register-form-container">
+        <h1 className="register-text">Register</h1>
+        <form className="register-form" onSubmit={onSubmit}>
           <label htmlFor="username">Username</label>
           <input
             type="text"
@@ -62,15 +55,15 @@ const Login = () => {
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
-          <button type="submit">Login</button>
+          <button type="submit">Register</button>
           {isError && <p className="error-msg">*{errorMsg}</p>}
         </form>
-        <a href="/register" className="signup-link">
-          Don&apos;t have an account? Sign up
+        <a href="/login" className="login-link">
+          Already have an account? Login
         </a>
       </div>
     </div>
   )
 }
 
-export default Login
+export default Register

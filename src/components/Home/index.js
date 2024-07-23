@@ -1,18 +1,19 @@
 import {Link} from 'react-router-dom'
+import './index.css'
 
-import Header from '../Header'
-
-const Home = () => (
-  <>
-    <Header />
-    <div>
-      <h1>Find The Job That Fits Your Life</h1>
-      <p>Millions of peopls</p>
-      <Link to="/jobs">
-        <button>Find Jobs</button>
-      </Link>
+const Home = () => {
+  return (
+    <div className="home-container">
+      <nav className="navbar">
+        <Link to="/">Home</Link>
+        <Link to="/assessments">Assessments</Link>
+      </nav>
+      <div className="about-us">
+        <h1>About Us</h1>
+        <p>This is the About Us section.</p>
+      </div>
     </div>
-  </>
-)
+  )
+}
 
 export default Home

@@ -1,26 +1,39 @@
-import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
-import ProtectedRoute from './components/ProtectedRoute'
-import Jobs from './components/Jobs'
-import Home from './components/Home'
-import JobDetails from './components/JobDetails'
-
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from 'react-router-dom'
 import Login from './components/Login'
-
+import Register from './components/Register'
+import Home from './components/Home'
+import Assessments from './components/Assessments'
+import Cookies from 'js-cookie'
 import './App.css'
-import NotFound from './components/NotFound'
 
-// These are the lists used in the application. You can move them to any component needed.
+const ProtectedRoute = ({component: Component, ...rest}) => {
+  const jwtToken = Cookies.get('jwt_token')
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        jwtToken ? <Component {...props} /> : <Redirect to="/login" />
+      }
+    />
+  )
+}
 
-// Replace your code here
-const App = () => (
-  <Switch>
-    <Route exact path="/login" component={Login} />
-    <ProtectedRoute exact path="/" component={Home} />
-
-    <ProtectedRoute exact path="/jobs" component={Jobs} />
-    <ProtectedRoute exact path="/jobs/:id" component={JobDetails} />
-    <NotFound />
-  </Switch>
-)
+const App = () => {
+  return (
+    <Router>
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
+        <ProtectedRoute exact path="/" component={Home} />
+        <ProtectedRoute exact path="/assessments" component={Assessments} />
+      </Switch>
+    </Router>
+  )
+}
 
 export default App
